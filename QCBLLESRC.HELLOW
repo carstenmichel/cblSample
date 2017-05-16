@@ -1,0 +1,37 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. HELLOW.
+       AUTHOR. CARSTEN.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT CUST-FILE ASSIGN TO DISK-CUSTOMER.
+      *    ORGANIZATION IS INDEXED
+      *    Access MODE is Dynamic
+      *    Record Key is Name in CUST-FILE.
+       DATA DIVISION.
+       FILE SECTION.
+       FD CUST-FILE.
+       01 CUST-RECORD.
+           05  CUST-Name       PIC X(32).
+           05  CUST-Surname    PIC X(32).
+           05  CUST-Town       PIC X(32).
+       WORKING-STORAGE SECTION.
+       01 DATA-REMAINS-SWITCH PIC X(2) VALUE SPACES.
+       PROCEDURE DIVISION.
+       MAIN.
+           DISPLAY "Hello, world".
+           OPEN INPUT CUST-FILE.
+           READ CUST-FILE
+           AT END MOVE "NO" TO DATA-REMAINS-SWITCH
+           END-READ.
+           PERFORM SCHREIB-NAME
+                UNTIL DATA-REMAINS-SWITCH = "NO".
+           CLOSE CUST-FILE.
+           STOP RUN.
+      * ---------
+       SCHREIB-NAME.
+           DISPLAY CUST-Name CUST-Surname.
+           READ CUST-FILE
+           AT END MOVE "NO" TO DATA-REMAINS-SWITCH
+           END-READ.
+
